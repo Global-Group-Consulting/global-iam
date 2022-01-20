@@ -25,7 +25,7 @@
             <tr>
               <th scope="col">Codice</th>
               <th scope="col">Descrizione</th>
-              <th scope="col">Utenti</th>
+              <th scope="col">Ruoli</th>
               <th></th>
             </tr>
             </thead>
@@ -34,6 +34,7 @@
               $lastLetter = ""
             @endphp
             @foreach($permissions as $permission)
+
               @php
                 $currentLetter = substr($permission->code, 0, 1);
                 $newLetter = $lastLetter !== $currentLetter;

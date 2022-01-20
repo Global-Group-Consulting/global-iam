@@ -6,8 +6,10 @@
   use App\Http\Requests\UpdatePermissionRequest;
   use App\Models\Permission;
   use App\Models\Role;
+  use http\QueryString;
   use Illuminate\Http\RedirectResponse;
   use Illuminate\Http\Request;
+  use Illuminate\Support\Facades\DB;
   use Illuminate\View\View;
   
   class PermissionController extends Controller {
@@ -17,8 +19,20 @@
      * @return View
      */
     public function index(): View {
-      $permissions = Permission::orderBy("code")->get();
-      
+//      DB::enableQueryLog();
+      $permissions = Permission::raw()->aggregate([
+          ['$lookup' => [
+            "from"         => 'acl_roles_models',
+            "localField"   => 'code',
+            "foreignField" => 'permissions',
+            "as"           => 'roles'
+          ]],
+          [
+            '$sort' => ["code" => 1]
+          ]
+        ]
+      )->toArray();
+  
       return view("permissions.index", compact("permissions"));
     }
     
@@ -45,11 +59,11 @@
       
       return redirect()->route("permissions.index")->with("Permesso creato correttamente");
     }
-    
+  
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Permission  $permission
+     * @param  Permission  $permission
      *
      * @return \Illuminate\Http\Response
      */
@@ -110,18 +124,28 @@
             ->with(["error" => "Errore nell'aggiornare il codice del permesso.<br>" . $e->getMessage()]);
         }
       }
-      
+  
       return redirect()->route("permissions.index")->with(["status" => "Dati salvati correttamente"]);
     }
-    
+  
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Permission  $permission
+     * @param  Permission  $permission
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy(Permission $permission) {
-      //
+    public function destroy(Permission $permission): RedirectResponse {
+      $roles   = Role::where("permissions", $permission->code);
+      $counter = $roles->count();
+    
+      if ($counter > 0) {
+        return back()->with('error', "Non è possibile cancellare questo permesso in quanto è in uso da $counter ruoli.
+        Prima di procedere, togliere questo permesso da ogni ruolo.");
+      }
+    
+      $permission->delete();
+    
+      return redirect()->route("permissions.index")->with(["status" => "Permesso eliminato correttamente!"]);
     }
   }

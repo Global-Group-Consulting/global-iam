@@ -18,8 +18,15 @@
      * @return View
      */
     public function index(): View {
-      $roles = Role::all();
-      
+      $roles = Role::raw()->aggregate([
+        ['$lookup' => [
+          "from"         => 'users',
+          "localField"   => 'code',
+          "foreignField" => 'roles',
+          "as"           => 'users'
+        ]]
+      ])->toArray();
+  
       return view("roles.index", compact("roles"));
     }
     

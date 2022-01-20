@@ -46,9 +46,8 @@
                     <ul class="dropdown-menu" aria-labelledby="dd_permissions_{{$role->_id}}"
                         style="max-height: 250px; overflow: auto">
                       @php
-                        $permissions = $role->permissions;
-
-                        sort($permissions)
+                        $permissions = iterator_to_array($role->permissions);
+                        sort($permissions);
                       @endphp
 
                       @foreach($permissions as $permission)
