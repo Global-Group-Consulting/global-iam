@@ -29,7 +29,7 @@
 @endtask
 
 @task('update_symlinks')
-    echo "Linking storage directory - {{ $app_dir }}" 
+    echo "Linking storage directory - {{ $app_dir }}"
     rm -rf {{ $new_release_dir }}/storage
     ln -nfs {{ $app_dir }}/storage {{ $new_release_dir }}/storage
 
@@ -37,7 +37,7 @@
     ln -nfs {{ $app_dir }}/.env {{ $new_release_dir }}/.env
 
     echo 'Linking current release - {{ $new_release_dir }}'
-    ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
+    ln -nfs {{ $new_release_dir }} {{ $releases_dir }}/current
 
     {{-- php artisan storage:link --}}
 @endtask

@@ -12,8 +12,5 @@ class Role extends Model {
   protected $collection = "acl_roles_models";
   
   protected $fillable = ["code", "description", "permissions"];
-  
-  public function users() {
-    return $this->hasMany(User::class, "roles", "code");
-  }
+ 
 }
