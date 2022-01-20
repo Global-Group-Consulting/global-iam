@@ -40,4 +40,5 @@
     ln -nfs {{ $new_release_dir }} {{ $releases_dir }}/current
 
     {{-- php artisan storage:link --}}
+    php artisan cache:clear
 @endtask
