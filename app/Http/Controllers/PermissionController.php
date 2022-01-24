@@ -22,7 +22,7 @@
 //      DB::enableQueryLog();
       $permissions = Permission::raw()->aggregate([
           ['$lookup' => [
-            "from"         => 'acl_roles_models',
+            "from"         => 'roles',
             "localField"   => 'code',
             "foreignField" => 'permissions',
             "as"           => 'roles'

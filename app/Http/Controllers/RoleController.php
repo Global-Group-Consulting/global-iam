@@ -18,14 +18,33 @@
      * @return View
      */
     public function index(): View {
-      $roles = Role::raw()->aggregate([
-        ['$lookup' => [
-          "from"         => 'users',
-          "localField"   => 'code',
-          "foreignField" => 'roles',
-          "as"           => 'users'
-        ]]
+      $users = User::raw()->aggregate([
+        [
+          '$unwind' => [
+            'path'                       => '$roles',
+            'preserveNullAndEmptyArrays' => true
+          ]
+        ],
+        [
+          '$group' => [
+            '_id'   => '$roles',
+            'users' => [
+              '$sum' => 1
+            ]
+          ]
+        ]
       ])->toArray();
+  
+      $roles = Role::all();
+  
+  
+      foreach ($roles as $role) {
+        $ids   = array_column($users, "_id");
+        $index = array_search($role->code, $ids);
+    
+        $role->usersCount = $users[$index]["users"];
+      }
+  
   
       return view("roles.index", compact("roles"));
     }

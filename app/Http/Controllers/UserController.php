@@ -22,7 +22,6 @@
       
       $roles = Role::all();
       $apps  = App::all();
-      
       $users = User::orderBy("roles")
         ->orderBy("firstName")
         ->orderBy("lastName");
