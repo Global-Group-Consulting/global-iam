@@ -36,7 +36,7 @@
                   {{$app["code"]}}
                 </th>
                 <td>{{$app->description}}</td>
-                <td>{{$app->users->count()}}</td>
+                <td>{{$app->usersCount}}</td>
                 <td>
                   <a href="{{route('apps.edit', $app->_id)}}" class="btn btn-link">
                     <i class="fas fa-edit"></i>

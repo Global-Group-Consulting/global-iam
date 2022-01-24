@@ -11,7 +11,4 @@
     
     protected $fillable = ["code", "description"];
     
-    public function users() {
-      return $this->hasMany(User::class, "apps", "code");
-    }
   }

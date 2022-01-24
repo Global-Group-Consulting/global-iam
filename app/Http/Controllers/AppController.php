@@ -9,16 +9,51 @@
   use Illuminate\Http\RedirectResponse;
   use Illuminate\Http\Request;
   use Illuminate\View\View;
-  
+  use Jenssegers\Mongodb\Eloquent\Model;
+
   class AppController extends Controller {
+    private function getAppUsersCount(string $appCode = null) {
+      $aggregation = [
+        ['$unwind' => [
+          'path'                       => '$apps',
+          'preserveNullAndEmptyArrays' => true
+        ]],
+        ['$group' => [
+          '_id'   => '$apps',
+          'users' => [
+            '$sum' => 1
+          ]
+        ]]
+      ];
+    
+      if ($appCode) {
+        array_unshift($aggregation, [
+          '$match' => [
+            "apps" => $appCode
+          ]
+        ]);
+      }
+    
+      return User::raw()->aggregate($aggregation)->toArray();
+    }
+  
     /**
      * Display a listing of the resource.
      *
      * @return View
      */
     public function index(): View {
+      $users = $this->getAppUsersCount();
+    
       $apps = App::all();
+      $ids  = array_column($users, "_id");
+    
+      foreach ($apps as $role) {
+        $index = array_search($role->code, $ids);
       
+        $role->usersCount = $index === false ? 0 : $users[$index]["users"];
+      }
+    
       return view("apps.index", compact("apps"));
     }
     
@@ -111,14 +146,15 @@
      * @return RedirectResponse
      */
     public function destroy(App $app): RedirectResponse {
-      $usersCount = $app->users->count();
+      $usersCount = User::where("apps", $app->code)->count();
+  
       if ($usersCount > 0) {
         return back()->with('error', "Non pè possibile cancellare questa app in quanto è in uso da $usersCount utenti.
         Prima di procedere, togliere questa app da ogni utente.");
       }
-      
+  
       $app->delete();
-      
+  
       return redirect()->route("apps.index")->with(["status" => "Elemento eliminato correttamente!"]);
     }
   }

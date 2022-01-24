@@ -21,14 +21,15 @@
      * @return array
      */
     public function rules() {
+      
       return [
         "code"          => [
           "required",
-          "unique:App\Models\Role," . $this->route()->parameter("role"),
+          "unique:App\Models\Role," . $this->route()->parameter("role")->_id,
           "regex:/^[a-z_]{2,}$/i"
         ],
         "description"   => "required",
-        "permissions.*" => "exists:App\Models\Permission,code"
+        "permissions.*" => "nullable|exists:App\Models\Permission,code"
       ];
     }
   }
