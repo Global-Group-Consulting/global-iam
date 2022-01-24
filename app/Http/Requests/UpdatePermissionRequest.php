@@ -24,7 +24,7 @@
       return [
         "code"        => [
           "required",
-          "unique:permissions," . $this->route()->parameter("permission"),
+          "unique:App\Models\Permission,code," . $this->route()->parameter("permission")->_id,
           "regex:/^[a-z:\.\*]{2,}$/i"
         ],
         "description" => "required"

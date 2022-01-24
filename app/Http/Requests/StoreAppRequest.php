@@ -24,7 +24,7 @@
       return [
         "code"        => [
           "required",
-          "unique:apps," . $this->route()->parameter("app"),
+          "unique:apps,code",
           "regex:/^[a-z_]{2,}$/i"
         ],
         "description" => "required"

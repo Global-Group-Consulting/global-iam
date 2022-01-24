@@ -24,7 +24,7 @@
       return [
         "code"        => [
           "required",
-          "unique:permissions",
+          "unique:permissions,code",
           "regex:/^[a-z:\.\*]{2,}$/i"
         ],
         "description" => "required"

@@ -25,7 +25,7 @@
       return [
         "code"          => [
           "required",
-          "unique:App\Models\Role," . $this->route()->parameter("role")->_id,
+          "unique:App\Models\Role,code," . $this->route()->parameter("role")->_id,
           "regex:/^[a-z_]{2,}$/i"
         ],
         "description"   => "required",
