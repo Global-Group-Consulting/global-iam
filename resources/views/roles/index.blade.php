@@ -46,7 +46,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dd_permissions_{{$role->_id}}"
                         style="max-height: 250px; overflow: auto">
                       @php
-                        $permissions = iterator_to_array($role->permissions);
+                        $permissions = $role->permissions;
                         sort($permissions);
                       @endphp
 
@@ -62,7 +62,7 @@
                   </div>
                 </td>
                 <td>{{$role->description}}</td>
-                <td>{{$role->users->count()}}</td>
+                <td>{{$role->usersCount}}</td>
                 <td>
                   <a href="{{route('roles.edit', $role->_id)}}" class="btn btn-link">
                     <i class="fas fa-edit"></i>

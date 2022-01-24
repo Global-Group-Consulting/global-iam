@@ -30,11 +30,11 @@
             </tr>
             </thead>
             <tbody>
+
             @php
               $lastLetter = ""
             @endphp
             @foreach($permissions as $permission)
-
               @php
                 $currentLetter = substr($permission->code, 0, 1);
                 $newLetter = $lastLetter !== $currentLetter;
@@ -47,22 +47,22 @@
                 </tr>
               @endif
 
-              <tr>
-                <th scope="row">
-                  {{$permission["code"]}}
-                </th>
-                <td>{{$permission->description}}</td>
-                <td>{{$permission->roles->count()}}</td>
-                <td class="text-nowrap">
-                  <a href="{{route('permissions.edit', $permission->_id)}}" class="btn btn-link">
-                    <i class="fas fa-edit"></i>
-                  </a>
-                  <button class="btn btn-link text-danger" data-bs-toggle="modal"
-                          data-bs-target="#deleteModal"
-                          data-bs-id="{{$permission->_id}}">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
+            <tr>
+              <th scope="row">
+                {{$permission["code"]}}
+              </th>
+              <td>{{$permission->description}}</td>
+              <td>{{$permission->roles->count()}}</td>
+              <td class="text-nowrap">
+                <a href="{{route('permissions.edit', $permission->_id)}}" class="btn btn-link">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <button class="btn btn-link text-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal"
+                        data-bs-id="{{$permission->_id}}">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
               </tr>
             @endforeach
             </tbody>

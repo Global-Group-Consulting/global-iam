@@ -83,7 +83,7 @@
                     </div>
 
                     <div class=" d-flex">
-                      <a href="/" class="btn btn-outline-secondary me-3"
+                      <a href="{{route('users.index')}}" class="btn btn-outline-secondary me-3"
                          type="reset">Svuota</a>
                       <button class="btn btn-success" type="submit">Filtra</button>
                     </div>
@@ -117,8 +117,8 @@
                   <br>
                   <small>{{$user->email}}</small>
                 </th>
-                <td>{{join($user->roles, ", ")}}</td>
-                <td>{{join($user->apps, ", ")}}</td>
+                <td>{{ $user->roles ? join($user->roles, ", ") : ''}}</td>
+                <td>{{$user->apps ? join($user->apps, ", ") : ''}}</td>
                 <td>
                   <a href="{{route('users.edit', $user->_id)}}"
                      class="btn btn-link"><i class="fas fa-edit"></i></a>
