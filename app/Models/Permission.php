@@ -7,8 +7,6 @@
   
   class Permission extends Model {
     use HasFactory;
-    
-    protected $collection = "acl_permissions_models";
-    
+  
     protected $fillable = ["code", "description"];
   }

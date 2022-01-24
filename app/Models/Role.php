@@ -9,8 +9,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Role extends Model {
   use HasFactory;
   
-  protected $collection = "acl_roles_models";
-  
   protected $fillable = ["code", "description", "permissions"];
  
 }
