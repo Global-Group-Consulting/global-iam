@@ -6,6 +6,7 @@
     $app_dir = '/opt/bitnami/nginx/html/global-iam';
     $release = date('YmdHis');
     $new_release_dir = $releases_dir .'/'. $release;
+    $branch = 'staging'
 @endsetup
 
 @story('deploy')
@@ -19,6 +20,7 @@
     [ -d {{ $releases_dir }} ] || mkdir {{ $releases_dir }}
     git clone --depth 1 {{ $repository }} {{ $new_release_dir }}
     cd {{ $new_release_dir }}
+    git pull origin {{ $branch }}
     git reset --hard {{ $commit }}
 @endtask
 
