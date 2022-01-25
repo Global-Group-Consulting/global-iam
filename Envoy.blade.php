@@ -1,9 +1,9 @@
 @servers(['web' => ['bitnami@35.157.157.80']])
 
 @setup
-    $repository = 'git@github.com:Global-Group-Consulting/global-sso.git';
+    $repository = 'git@github.com:Global-Group-Consulting/global-iam.git';
     $releases_dir = '/opt/bitnami/nginx/html';
-    $app_dir = '/opt/bitnami/nginx/html/global-sso';
+    $app_dir = '/opt/bitnami/nginx/html/global-iam';
     $release = date('YmdHis');
     $new_release_dir = $releases_dir .'/'. $release;
 @endsetup
