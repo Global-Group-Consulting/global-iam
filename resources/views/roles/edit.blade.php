@@ -3,7 +3,7 @@
 @section("content")
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-xl-10">
-      <div class="card">
+      <div class="card ">
         <div class="card-header">{{ __('Modifica Ruolo') }}</div>
 
         <div class="card-body">
@@ -40,7 +40,7 @@
                   "optionsKey" => "code",
                   "optionsText" => [
                     "fn" => function ($permission) {
-                      return $permission->code . " - " . $permission->description;
+                      return $permission->code ;
                     }
                   ]
                 ])
