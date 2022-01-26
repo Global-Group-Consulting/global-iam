@@ -30,6 +30,7 @@
                   Filtri
                 </button>
               </h2>
+
               <div id="filters-collapseOne"
                    class="accordion-collapse collapse {{$hasFilters ? 'show': ''}}"
                    aria-labelledby="filters-headingOne"
@@ -53,22 +54,22 @@
 
                     <div class="col-6">
                       @include("partials.form_select", [
-                      "label" => "Ruoli",
-                      "name" => "filters[roles][]",
-                      "value" => $filters && key_exists("roles", $filters) ? $filters['roles'] : '',
-                      "multiple" => true,
-                      "options" => $roles,
-                      "optionsKey" => "code",
-                      "optionsText" => [
-                      "fn" => function ($role) {
-                      return $role->code . " - " . $role->description;
-                      }
-                      ]
+                        "label" => "Ruoli",
+                        "name" => "filters[roles]",
+                        "value" => $filters && key_exists("roles", $filters) ? $filters['roles'] : '',
+                        "multiple" => true,
+                        "options" => $roles,
+                        "optionsKey" => "code",
+                        "optionsText" => [
+                          "fn" => function ($role) {
+                            return $role->code . " - " . $role->description;
+                          }
+                        ]
                       ])
 
                       @include("partials.form_select", [
                       "label" => "App attive",
-                      "name" => "filters[apps][]",
+                      "name" => "filters[apps]",
                       "value" => $filters && key_exists("apps", $filters) ? $filters['apps'] : '',
                       "multiple" => true,
                       "options" => $apps,

@@ -39,7 +39,7 @@
                   "optionsKey" => "code",
                   "optionsText" => [
                     "fn" => function ($permission) {
-                      return $permission->code . " - " . $permission->description;
+                      return $permission->code;
                     }
                   ]
                 ])

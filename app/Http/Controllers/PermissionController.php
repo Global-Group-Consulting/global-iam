@@ -2,6 +2,7 @@
   
   namespace App\Http\Controllers;
   
+  use App\Http\Requests\StoreArticleRequest;
   use App\Http\Requests\StorePermissionRequest;
   use App\Http\Requests\UpdatePermissionRequest;
   use App\Models\Permission;
@@ -54,9 +55,9 @@
      */
     public function store(StorePermissionRequest $request): RedirectResponse {
       $validated = $request->validated();
-      
+  
       Permission::create($validated);
-      
+  
       return redirect()->route("permissions.index")->with("Permesso creato correttamente");
     }
   
