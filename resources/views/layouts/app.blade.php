@@ -31,7 +31,7 @@
         @include('partials.sidebar')
       @endauth
 
-      <div class="flex-fill d-flex flex-column">
+      <div class="flex-fill d-flex flex-column mw-100 overflow-hidden">
         @auth
           @include('partials.navbar')
         @endauth
