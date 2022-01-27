@@ -41,6 +41,9 @@
                   <a href="{{route('apps.edit', $app->_id)}}" class="btn btn-link">
                     <i class="fas fa-edit"></i>
                   </a>
+                  <a href="{{route('apps.show', $app->_id)}}" class="btn btn-link">
+                    <i class="fas fa-eye"></i>
+                  </a>
                   <button class="btn btn-link text-danger" data-bs-toggle="modal"
                           data-bs-target="#deleteModal"
                           data-bs-id="{{$app->_id}}">
