@@ -49,5 +49,7 @@
 
     {{-- php artisan storage:link --}}
     cd {{ $new_release_dir }}
-    php artisan cache:clear
+
+    echo 'restarting php-fpm'
+    sudo /opt/bitnami/ctlscript.sh restart php-fpm
 @endtask
