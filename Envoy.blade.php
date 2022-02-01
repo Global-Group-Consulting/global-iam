@@ -17,12 +17,10 @@
 @endstory
 
 @task('clone_repository')
-    echo 'Cloning repository'
+    echo 'Cloning repository - git clone {{ $repository }} -b {{$branch}} {{ $new_release_dir }}'
     [ -d {{ $releases_dir }} ] || mkdir {{ $releases_dir }}
-    git clone --depth 1 {{ $repository }} {{ $new_release_dir }}
+    git clone {{ $repository }} -b {{$branch}} {{ $new_release_dir }}
     cd {{ $new_release_dir }}
-    git pull origin {{ $branch }}
-    git reset --hard {{ $commit }}
 @endtask
 
 @task('run_composer')
@@ -51,5 +49,7 @@
 
     {{-- php artisan storage:link --}}
     cd {{ $new_release_dir }}
-    php artisan cache:clear
+
+    echo 'restarting php-fpm'
+    sudo /opt/bitnami/ctlscript.sh restart php-fpm
 @endtask
