@@ -15,6 +15,12 @@
               <strong>Descrizione</strong>: {{$app["description"]}}
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <strong>Mittente email</strong>: {{$app["emailsFrom"]}}
+            </div>
+
+          </div>
 
           <div class="row">
             <div class="col">

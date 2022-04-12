@@ -28,6 +28,16 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col">
+                @include("partials.form_input", [
+                  "label" => "Mittente email",
+                  "name" => "emailsFrom",
+                  "value" => old("emailsFrom")
+                ])
+              </div>
+            </div>
+
             <div class=" d-flex">
               <a href="{{route('apps.index')}}" class="btn btn-outline-secondary me-3"
                  type="reset">Annulla</a>

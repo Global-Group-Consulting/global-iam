@@ -6,7 +6,7 @@
 
     <div class="col-12 col-md-10 col-xl-10">
       @include("partials.session_error")
-      
+
       <div class="card">
         <div class="card-header">{{ __('Modifica App') }}</div>
 
@@ -31,6 +31,17 @@
                 ])
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-6">
+                @include("partials.form_input", [
+                  "label" => "Mittente email",
+                  "name" => "emailsFrom",
+                  "value" => $app["emailsFrom"]
+                ])
+              </div>
+            </div>
+
 
             <div class=" d-flex">
               <a href="{{route('apps.index')}}" class="btn btn-outline-secondary me-3"

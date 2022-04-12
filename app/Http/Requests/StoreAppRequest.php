@@ -27,7 +27,8 @@
           "unique:apps,code",
           "regex:/^[a-z_]{2,}$/i"
         ],
-        "description" => "required"
+        "description" => "required",
+        "emailsFrom"  => "required,email"
       ];
     }
   }

@@ -28,7 +28,8 @@
           "unique:App\Models\App,code," . $this->route()->parameter("app")->_id,
           "regex:/^[a-z_]{2,}$/i"
         ],
-        "description" => "required"
+        "description" => "required",
+        "emailsFrom"  => "required|email"
       ];
     }
   }
