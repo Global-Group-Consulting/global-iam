@@ -4,6 +4,10 @@
 
 @section('content')
   <div class="container">
+    <div class="text-center mb-5">
+      <img src="{{asset('img/g-iam.png')}}" alt="">
+    </div>
+
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">

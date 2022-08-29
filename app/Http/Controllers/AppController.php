@@ -75,12 +75,15 @@
      */
     public function store(StoreAppRequest $request): RedirectResponse {
       $validated = $request->validated();
-      
-      App::create($validated);
-      
-      return redirect()->route("apps.index")->with(["status" => "App creata correttamente"]);
+  
+      $app = App::create($validated);
+  
+      $this->refreshKeys($app, "server");
+      $this->refreshKeys($app, "client");
+  
+      return redirect()->route("apps.show", $app->_id)->with(["status" => "App creata correttamente"]);
     }
-    
+  
     /**
      * Display the specified resource.
      *
@@ -88,10 +91,10 @@
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-      //
+    public function show(App $app) {
+      return view("apps.show", compact("app"));
     }
-    
+  
     /**
      * Show the form for editing the specified resource.
      *
@@ -134,8 +137,8 @@
             ->with(["status" => "Errore nell'aggiornare il codice dell'applicazione.<br>" . $e->getMessage()]);
         }
       }
-      
-      return redirect()->route("apps.index")->with(["status" => "Dati salvati correttamente"]);
+  
+      return redirect()->route("apps.show", $app->_id)->with(["success" => "Dati salvati correttamente"]);
     }
     
     /**
@@ -156,5 +159,78 @@
       $app->delete();
   
       return redirect()->route("apps.index")->with(["status" => "Elemento eliminato correttamente!"]);
+    }
+  
+    /**
+     * @param  App     $app
+     * @param  string  $type  sever | client
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function refreshKeys(App $app, $type) {
+      $secrets = $app["secrets"] ?? [];
+    
+      if ( !key_exists("client", $secrets)) {
+        $secrets["client"] = [
+          "type"      => "client",
+          "secretKey" => "",
+          "publicKey" => ""
+        ];
+      }
+    
+      if ( !key_exists("server", $secrets)) {
+        $secrets["server"] = [
+          "type"      => "server",
+          "secretKey" => "",
+        ];
+      }
+    
+      $secrets[$type]["secretKey"] = $this->generatePublicKey($type, $app->code);
+    
+      if ($type === "client") {
+        $secrets[$type]["publicKey"] = $this->generatePublicKey($type, $app->code, true);
+      }
+    
+      $app["secrets"] = $secrets;
+      $app->save();
+    
+      return redirect(route("apps.show", $app->_id));
+    }
+  
+    /**
+     * @param  string  $type  sever | client
+     * @param  string  $appCode
+     * @param  bool    $public
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function generatePublicKey(string $type, string $appCode, $public = false): string {
+      $length = $public ? 8 : 8;
+      $prefix = "";
+      $suffix = "";
+      $secret = "";
+    
+      if ( !$public) {
+        $prefix = $type === "server" ? "srv" : "clt";
+      }
+    
+      $secret = bin2hex(random_bytes($length));
+    
+      if ( !$public) {
+        $suffix = $appCode;
+      }
+    
+      $finalCode     = ($prefix ? $prefix . "-" : '') . $secret . ($suffix ? "-" . $suffix : '');
+      $alreadyExists = App::where("secrets.$type." . ($public ? "publicKey" : "secretKey"), $finalCode)->first();
+    
+      while ($alreadyExists) {
+        $secret        = bin2hex(random_bytes($length));
+        $finalCode     = ($prefix ? $prefix . "-" : '') . $secret . ($suffix ? "-" . $suffix : '');
+        $alreadyExists = App::where("secrets.$type." . ($public ? "publicKey" : "secretKey"), $finalCode)->first();
+      }
+    
+      return $finalCode;
     }
   }
