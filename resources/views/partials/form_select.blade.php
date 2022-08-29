@@ -14,7 +14,7 @@
   </label>
 
   <div class="dropdown">
-    <button class="form-select text-start text-truncate w-100 @error($errorName) is-invalid @enderror"
+    <button class="form-select text-start text-truncate w-100 @error($name) is-invalid @enderror"
             type="button" id="{{$name}}Select"
             data-bs-toggle="dropdown"
             data-bs-auto-close="outside"
@@ -22,7 +22,7 @@
       Dropdown
     </button>
 
-    @error($errorName)
+    @error($name)
     <span class="invalid-feedback" role="alert">
       <strong>{{ $message }}</strong>
     </span>
