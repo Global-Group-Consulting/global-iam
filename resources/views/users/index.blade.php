@@ -118,8 +118,9 @@
                   <br>
                   <small>{{$user->email}}</small>
                 </th>
-                <td>{{ $user->roles ? join($user->roles, ", ") : ''}}</td>
-                <td>{{$user->apps ? join($user->apps, ", ") : ''}}</td>
+                <td>
+                  {{ $user->roles ? join(", ", $user->roles) : ''}}</td>
+                <td>{{$user->apps ? join(", ", $user->apps) : ''}}</td>
                 <td>
                   <a href="{{route('users.edit', $user->_id)}}"
                      class="btn btn-link"><i class="fas fa-edit"></i></a>
